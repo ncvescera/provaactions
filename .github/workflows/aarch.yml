@@ -1,0 +1,40 @@
+name: "Build on ARM"
+
+on: [push, pull_request]
+
+jobs:
+  armv8_job:
+    # The host should always be Linux
+    runs-on: ubuntu_latest
+    name: Build on ubuntu-latest aarch64
+    steps:
+      - uses: actions/checkout@v3
+      - uses: uraimo/run-on-arch-action@v2
+        name: Run commands
+        id: runcmd
+        with:
+          arch: aarch64
+          distro: ubuntu_latest
+
+          # Not required, but speeds up builds by storing container images in
+          # a GitHub package registry.
+          githubToken: ${{ github.token }}
+
+          # Set an output parameter `uname` for use in subsequent steps
+          run: |
+            uname -a
+            echo ::set-output name=uname::$(uname -a)
+      - name: Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install
+        run: yarn run init
+
+      - name: Build
+        run yarn run build
+
+      # - name: Get the output
+      #   # Echo the `uname` output parameter from the `runcmd` step
+      #   run: |
+      #     echo "The uname output was ${{ steps.runcmd.outputs.uname }}"
