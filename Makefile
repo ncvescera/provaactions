@@ -1,2 +1,2 @@
-out.py:
-	touch out.py && echo "risultato" > out.py
+docs/out.py:
+	touch docs/out.py && echo "risultato" > docs/out.py
