@@ -10,4 +10,8 @@ jobs:
     - uses: pguyot/arm-runner-action@v2
       with:
         commands: |
-            python3 --version
+            curl -sL https://deb.nodesource.com/setup_18.x | sudo bash -
+            sudo apt install nodejs
+            npm gi yarn
+            yarn run init
+            yarn run build
