@@ -4,10 +4,8 @@ on:
   # Trigger the workflow on push or pull request,
   # but only for the main branch
   push:
-    branches:
-      - develop
-    path:
-      - cnlp/**
+    branches: ['develop']
+    path: ['cnlp/**']
 
 # Down scope as necessary via https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
 permissions:
