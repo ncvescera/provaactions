@@ -12,7 +12,7 @@ jobs:
         base_image: raspios_lite_arm64:latest
         commands: |
             curl -sL https://deb.nodesource.com/setup_18.x | sudo bash -
-            sudo apt install nodejs
-            npm gi yarn
+            sudo apt install nodejs -y
+            npm install --global yarn
             yarn run init
             yarn run build
