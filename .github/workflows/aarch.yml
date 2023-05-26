@@ -12,9 +12,11 @@ jobs:
         base_image: raspios_lite_arm64:latest
         image_additional_mb: 4096
         commands: |
+            sudo apt update
+            sudo apt install python3-pip -y
+            pip3 install virtualenv
             curl -sL https://deb.nodesource.com/setup_18.x | sudo bash -
             sudo apt install nodejs -y
             npm install --global yarn
-            pip3 install virtualenv
             yarn run init
             yarn run build
