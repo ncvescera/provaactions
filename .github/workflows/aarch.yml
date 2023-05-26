@@ -32,7 +32,7 @@ jobs:
         run: yarn run init
 
       - name: Build
-        run yarn run build
+        run: yarn run build
 
       # - name: Get the output
       #   # Echo the `uname` output parameter from the `runcmd` step
