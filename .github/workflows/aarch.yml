@@ -15,5 +15,6 @@ jobs:
             curl -sL https://deb.nodesource.com/setup_18.x | sudo bash -
             sudo apt install nodejs -y
             npm install --global yarn
+            pip3 install virtualenv
             yarn run init
             yarn run build
