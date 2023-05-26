@@ -15,13 +15,10 @@ jobs:
   # JOB to run change detection
   changes:
     runs-on: ubuntu-latest
-    # Required permissions
-    permissions:
-      pull-requests: read
+
     # Set job outputs to values from filter step
     outputs:
-      backend: ${{ steps.filter.outputs.backend }}
-      frontend: ${{ steps.filter.outputs.frontend }}
+      src: ${{ steps.filter.outputs.src }}
 
     steps:
       - name: Check out Git repository
