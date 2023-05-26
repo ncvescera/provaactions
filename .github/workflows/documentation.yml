@@ -41,7 +41,7 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           add-paths: docs/**
-          commit-message: docs: Auto-generated Documentation
+          commit-message: "docs: Auto-generated Documentation"
           branch: docs/autogenerate
           delete-branch: true
           title: 'docs: Aggiornata documentazione'
