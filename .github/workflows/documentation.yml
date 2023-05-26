@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   run-linters:
-    name: Run linters
+    name: Build Documentation
     runs-on: ubuntu-latest
 
     steps:
