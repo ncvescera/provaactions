@@ -4,8 +4,7 @@ on:
   # Trigger the workflow on push or pull request,
   # but only for the main branch
   push:
-    branches: ['develop']
-    path: ['cnlp/**']
+    branches: [develop]
 
 # Down scope as necessary via https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
 permissions:
@@ -13,7 +12,28 @@ permissions:
   contents: write
 
 jobs:
-  run-linters:
+  # JOB to run change detection
+  changes:
+    runs-on: ubuntu-latest
+    # Required permissions
+    permissions:
+      pull-requests: read
+    # Set job outputs to values from filter step
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+    # For pull requests it's not necessary to checkout the code
+    - uses: dorny/paths-filter@v2
+      id: filter
+      with:
+        filters: |
+          src:
+            - 'cnlp/**'
+
+  build-docs:
+    needs: changes
+    if: ${{ needs.changes.outputs.src == 'true' }}
     name: Build Documentation
     runs-on: ubuntu-latest
 
