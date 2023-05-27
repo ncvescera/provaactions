@@ -9,10 +9,12 @@ const styles = {
     border: "0.5px solid #fff",
     padding: "2px"
   },
+  
+  
   title: {
     fontSize: "1em",
     color: "#000"
-  }
+    }
 };
 
 // Barometer component
