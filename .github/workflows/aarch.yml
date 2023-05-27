@@ -1,7 +1,16 @@
 name: "Build on ARM"
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - 'testing-build'
 
+permissions:
+  id-token: write
+  contents: write
+  packages: write
+  pull-requests: read
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,5 +34,21 @@ jobs:
               yarn run build
       - uses: actions/upload-artifact@v3
         with:
-          name: my-artifact
+          name: devbuild
           path: react-pywebview-boilerplate
+
+  prerelease:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: devbuild   
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            devbuild*
