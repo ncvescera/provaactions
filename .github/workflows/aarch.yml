@@ -10,7 +10,7 @@ jobs:
       - uses: pguyot/arm-runner-action@v2
         id: build_image
         with:
-          copy_artifact_path: /tmp/output
+          copy_artifact_path: dist/react-pywebview-boilerplate
           copy_artifact_dest: .
           base_image: raspios_lite_arm64:latest
           image_additional_mb: 4096
@@ -23,9 +23,7 @@ jobs:
               npm install --global yarn
               yarn run init
               yarn run build
-              mv dist/react-pywebview-boilerplate /tmp/output
-
       - uses: actions/upload-artifact@v3
         with:
           name: my-artifact
-          path: output
+          path: react-pywebview-boilerplate
