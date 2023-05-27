@@ -1,7 +1,7 @@
 import ReactSpeedometer from "react-d3-speedometer";
 
 const styles = {
-  dial: {
+  dial:   {
     // Styling for the dial component
     display: "inline-block",
     width: `300px`,
