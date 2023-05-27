@@ -1,8 +1,8 @@
 import GaugeBg from "../img/gauge-bg.png";
 
 // Constants for gauge dimensions and styles
-const gaugeWidth = 170;
-const gaugeHeight = 50;
+  const gaugeWidth = 170;
+const gaugeHeight =50;
 const gaugeContentWidth = gaugeWidth - 12;
 const gaugeBarsNb = 10;
 const gaugeBarWidth = gaugeContentWidth / gaugeBarsNb;
