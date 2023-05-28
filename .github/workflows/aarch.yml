@@ -45,6 +45,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: devbuild   
+      - run: ls -al
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
@@ -52,4 +53,7 @@ jobs:
           prerelease: true
           title: "Development Build"
           files: |
-            devbuild*
+            react-pywebview-boilerplate
+            react-pywebview-boilerplate.zip
+            devbuild
+            devbuild.*
