@@ -28,7 +28,7 @@
     "frontend:prod": "BUILD_PATH='./gui' react-scripts build",
     "frontend:test": "react-scripts test",
     "frontend:eject": "react-scripts eject",
-    "build": "export NODE_OPTIONS='--openssl-legacy-provider' && yarn run clean && CI=false yarn run frontend:prod && run-script-os",
+    "build": "export NODE_OPTIONS='--openssl-legacy-provider' && yarn run clean && yarn run frontend:prod && run-script-os",
     "build:macos": "./venv-pywebview/bin/python build-macos.py py2app",
     "build:windows": ".\\venv-pywebview\\Scripts\\pyinstaller build-windows.spec",
     "build:linux": "./venv-pywebview/bin/pyinstaller build-linux.spec",
