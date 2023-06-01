@@ -38,5 +38,5 @@ jobs:
         uses: wearerequired/lint-action@v2
         with:
           eslint: true
-          eslint_args: "\"src/**\""
+          eslint_args: "'src/**'"
           flake8: true
