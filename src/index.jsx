@@ -10,6 +10,7 @@ import Barometer from "./components/barometer";
 import Time from "./components/time";
 import "./index.css";
 
+// commento
 // Sample incoming data
 const incoming = {
   date: 1597107474849,
