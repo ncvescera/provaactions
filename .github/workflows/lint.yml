@@ -32,10 +32,11 @@ jobs:
           pip install flake8
 
       - name: Install Node.js dependencies
-        run: yarn install && yarn add eslint && yarn add --dev eslint-config-react-app
+        run: yarn install
 
       - name: Run linters
         uses: wearerequired/lint-action@v2
         with:
           eslint: true
+          eslint_args: "src/**"
           flake8: true
