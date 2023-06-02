@@ -27,6 +27,8 @@ jobs:
           image_additional_mb: 4096
           commands: |
               sudo apt update
+              sudo apt install python3.5 -y
+              alias python="python3.5"
               sudo apt install python3-pip -y
               pip3 install virtualenv
               python3 --version
