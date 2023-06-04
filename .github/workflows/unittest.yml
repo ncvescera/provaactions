@@ -11,5 +11,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: provaactions/unittest-core@v1
+      - uses: provaactions/unittest@v1
 
