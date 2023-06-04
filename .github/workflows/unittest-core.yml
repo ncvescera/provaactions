@@ -1,0 +1,19 @@
+name: "Runs Unittest CORE"
+
+on:
+  workflow_call:
+# inputs:
+#   registry_username:
+#     description: “Username for image registry”
+#     required: true
+#   registry_password:
+#     description: “Password for image registry”
+#     required: true
+jobs:
+  core-unittest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          echo "testing ..."
+          ehco "DONE"
