@@ -7,9 +7,13 @@ on:
       - main
 
 jobs:
-  run-tests:
+  main:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
       - uses: ./.github/workflows/unittest-core.yml
 
