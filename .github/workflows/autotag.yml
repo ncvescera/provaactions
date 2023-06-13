@@ -10,6 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - uses: Klemensas/action-autotag@stable
+    - uses: phish108/autotag-action@v1.1.55
       with:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        github-token: ${{ secrets.GITHUB_TOKEN}}
