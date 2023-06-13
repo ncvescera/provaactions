@@ -1,6 +1,7 @@
 # GUI
 
 TODO !!
+Nuoova TODO
 
 Thanks to https://github.com/r0x0r/pywebview-react-boilerplate
 
