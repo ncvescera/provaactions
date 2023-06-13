@@ -15,5 +15,6 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN}}
         with-v: "true"
         branch: main
-        bump: ${{ steps.contributor.outputs.release || steps.bot.outputs.release }}
+        bump: major
+        release-branch: main
 
