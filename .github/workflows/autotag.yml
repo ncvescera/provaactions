@@ -14,6 +14,8 @@ permissions:
 jobs:
   tag:
     runs-on: ubuntu-latest
+    outputs:
+      newtag: ${{ steps.tag.outputs.new-tag }}
     steps:
     - uses: actions/checkout@v3
     - uses: phish108/autotag-action@v1.1.64
@@ -25,10 +27,17 @@ jobs:
         bump: major
         release-branch: main
         dry-run: 'true'
-    - uses: "marvinpinto/action-automatic-releases@latest"
-      with:
+  release:
+    runs-on: ubuntu-latest
+    needs: tag
+    steps:
+      - env:
+          NEWTAG: ${{needs.tag.outputs.newtag}}
+      - uses: actions/checkout@v3
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "v${{ steps.tagger.outputs.new-tag }}"
+          automatic_release_tag: "v$NEWTAG"
           prerelease: false
       
 
