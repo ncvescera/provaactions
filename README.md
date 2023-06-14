@@ -1,11 +1,5 @@
 # GUI
 
-TODO !!
-
-
-Thanks to https://github.com/r0x0r/pywebview-react-boilerplate
-
-## Requirements
 - Python 3
 - Node
 - virtualenv
