@@ -24,7 +24,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN}}
           with-v: "true"
           branch: main
-          bump: major
+          #bump: major
           release-branch: main
           dry-run: 'true'
       
