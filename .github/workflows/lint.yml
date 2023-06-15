@@ -59,12 +59,14 @@ jobs:
 
       - name: Get Output
         if: failure()
-        run: cat lint_error.txt
+        run: |
+          sed -i '1s/^/**Latex Errors**\n\n ``` /' lint_error.txt
+          echo "```" >> lint_error.txt
+          #cat lint_error.txt
 
       - uses: mshick/add-pr-comment@v2
         if: failure()
         with:
-          message: "**Latex Linter Errors**"
           message-path: lint_error.txt
       # - name: Comment PR
       #   if: failure()
