@@ -59,14 +59,14 @@ jobs:
 
       - name: Get Output
         if: failure()
-        run: OUT=$(cat lint_error.txt)
+        run: cat lint_error.txt
 
       - name: Comment PR
         if: failure()
         uses: thollander/actions-comment-pull-request@v2
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          message: "${cat lint_error.txt}" "${{ cat lint_error.txt }}"
+          message: "${cat lint_error.txt}"
           # message: |
           #   Hello world ! :wave: ```$(cat lint_error.txt)```
 ###############
