@@ -47,11 +47,9 @@ jobs:
       - name: Get changes
         id: changes
         run: |
-          git diff --name-only -r HEAD^1 HEAD |grep *.tex 
-          RES="$(git diff --name-only -r HEAD~12 HEAD |grep *.tex|tr '\n' ' ')"
-          # RES="$(git diff --name-only -r HEAD^1 HEAD |grep *.tex)" 
-          # RES=$RES | tr '\n' ' '
+          RES=$(git diff --name-only -r HEAD~12 HEAD |grep *.tex|tr '\n' ' ')
           echo "changed-files=$RES" >> $GITHUB_OUTPUT
+          # git diff --name-only -r HEAD^1 HEAD |grep *.tex
 
       - name: Run Chktex
         id: chktex
