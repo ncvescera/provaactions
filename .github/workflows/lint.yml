@@ -59,7 +59,7 @@ jobs:
           VALIDATE_MARKDOWN: true
           VALIDATE_LATEX: true
       - run: |
-          echo ${{ steps.lint.outputs }}
+          echo ${{join(steps.lint.outputs.*, '\n')}}
 #name: Lint
 
 #on:
