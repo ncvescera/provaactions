@@ -60,7 +60,7 @@ jobs:
       - name: Get Output
         if: failure()
         run: |
-          sed -i '1s/^/**Latex Errors**\n\n ``` /' lint_error.txt
+          sed -i '1s/^/**Latex Errors**\n\n ```\n/' lint_error.txt
           echo "```" >> lint_error.txt
           #cat lint_error.txt
 
