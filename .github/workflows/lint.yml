@@ -48,7 +48,11 @@ jobs:
         run: git diff --name-only -r HEAD^1 HEAD
 
       - name: Run Lacheck
-        run: chktex *.tex >> $GITHUB_OUTPUT
+        id: chktex
+        run: echo "ERRS=$(chktex *.tex)" >> $GITHUB_OUTPUT
+
+      - name: Get Output
+        run: echo "${{ steps.chktex.outputs.ERRS }}"
 ###############
 # Set the Job #
 ###############
