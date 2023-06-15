@@ -48,6 +48,7 @@ jobs:
         id: changes
         run: |
           RES=$(git diff --name-only -r HEAD^1 HEAD |grep *.tex |tr '\n' ' ')
+          echo "$RES"
           echo "changed-files=$RES" >> $GITHUB_OUTPUT
           # git diff --name-only -r HEAD^1 HEAD |grep *.tex
 
