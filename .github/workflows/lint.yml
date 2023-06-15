@@ -46,7 +46,9 @@ jobs:
 
       - name: Get changes
         id: changes
-        run: echo "changed-files='$(git diff --name-only -r HEAD^1 HEAD)'" >> $GITHUB_OUTPUT
+        run: |
+          git diff --name-only -r HEAD^1 HEAD
+          echo "changed-files='$(git diff --name-only -r HEAD^1 HEAD)'" >> $GITHUB_OUTPUT
 
       - name: Run Chktex
         id: chktex
