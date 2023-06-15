@@ -22,6 +22,7 @@ jobs:
     # Grant status permission for MULTI_STATUS #
     ############################################
     permissions:
+      pull-requests: write
       contents: read
       packages: read
       statuses: write
@@ -48,7 +49,7 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@v36
         with:
-          files: '**.tex' 
+          files: "**.tex"
 
       - name: Run Chktex
         id: chktex
@@ -59,6 +60,14 @@ jobs:
       - name: Get Output
         if: failure()
         run: cat lint_error.txt
+
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          message: |
+            Hello world ! :wave: ```$(cat lint_error.txt)```
+
 ###############
 # Set the Job #
 ###############
