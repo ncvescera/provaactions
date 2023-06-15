@@ -62,6 +62,7 @@ jobs:
         run: cat lint_error.txt
 
       - name: Comment PR
+        if: failure()
         uses: thollander/actions-comment-pull-request@v2
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
