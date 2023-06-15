@@ -64,7 +64,7 @@ jobs:
       - uses: mshick/add-pr-comment@v2
         if: failure()
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          message: "**Latex Linter Errors**"
           message-path: lint_error.txt
       # - name: Comment PR
       #   if: failure()
