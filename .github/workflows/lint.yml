@@ -63,13 +63,14 @@ jobs:
       - name: Run Chktex
         id: chktex
         if: steps.changed-files.outputs.any_changed == 'true'
-        # continue-on-error: true
+        continue-on-error: true
         run: chktex ${{ steps.changed-files.outputs.all_changed_files }} -o lint_error.txt
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: 3.10
+
       - name: Generate Comments
         run: python .github/workflows/scripts/latex_commits_hints.py
 
@@ -81,7 +82,7 @@ jobs:
       #     #cat lint_error.txt
 
       - uses: mshick/add-pr-comment@v2
-        if: failure()
+        # if: failure()
         with:
           message-path: out_error.txt
       # - name: Comment PR
