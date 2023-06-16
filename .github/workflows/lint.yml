@@ -42,6 +42,8 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
         with:
+          ref: ${{github.event.pull_request.head.ref}}
+          repository: ${{github.event.pull_request.head.repo.full_name}}
           # Full git history is needed to get a proper
           # list of changed files within `super-linter`
           fetch-depth: 2
