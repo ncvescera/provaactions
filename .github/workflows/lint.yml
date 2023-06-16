@@ -66,6 +66,8 @@ jobs:
         continue-on-error: true
         run: chktex ${{ steps.changed-files.outputs.all_changed_files }} -o lint_error.txt
 
+      - run: ls -a
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
