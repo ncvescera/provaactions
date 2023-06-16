@@ -60,8 +60,8 @@ jobs:
       - name: Get Output
         if: failure()
         run: |
-          sed -i '1s/^/**Latex Errors**\n\n ```\n/' lint_error.txt
-          echo "\`\`\`\n\r" >> lint_error.txt
+          sed -i '1s/^/**Latex Errors**\n\n \`\`\` \n/' lint_error.txt
+          echo "\`\`\` \n" >> lint_error.txt
           #cat lint_error.txt
 
       - uses: mshick/add-pr-comment@v2
