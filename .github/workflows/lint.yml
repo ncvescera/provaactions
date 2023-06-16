@@ -66,17 +66,24 @@ jobs:
         # continue-on-error: true
         run: chktex ${{ steps.changed-files.outputs.all_changed_files }} -o lint_error.txt
 
-      - name: Get Output
-        if: failure()
-        run: |
-          sed -i '1s/^/**Latex Errors**\n\n \`\`\` \n/' lint_error.txt
-          # echo "\`\`\` \n" >> lint_error.txt
-          #cat lint_error.txt
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+      - name: Generate Comments
+        run: python .github/workflows/scripts/latex_commits_hints.py
+
+      # - name: Get Output
+      #   if: failure()
+      #   run: |
+      #     sed -i '1s/^/**Latex Errors**\n\n \`\`\` \n/' lint_error.txt
+      #     # echo "\`\`\` \n" >> lint_error.txt
+      #     #cat lint_error.txt
 
       - uses: mshick/add-pr-comment@v2
         if: failure()
         with:
-          message-path: lint_error.txt
+          message-path: out_error.txt
       # - name: Comment PR
       #   if: failure()
       #   uses: thollander/actions-comment-pull-request@v2
