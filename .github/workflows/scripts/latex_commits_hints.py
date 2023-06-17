@@ -28,6 +28,16 @@ if __name__ == "__main__":
         f.writelines(
             'Di seguito trovi tutte le imprecisioni che dovresti correggere\n\n'
         )
+
+        f.writelines('<details>\n<summary>Divide et Impera</summary>\n')
         for line in res[1:]:
-            f.writelines(f"- [ ] :warning: `{line}`\n")
-            # f.writelines("\n\n")
+            f.writelines('<details>\n')
+            f.writelines('<summary>\n')
+            f.writelines(f":warning: {line[:line.find(':')]}\n")
+            f.writelines('</summary>\n\n')
+            f.writelines("```\n")
+            f.writelines(f"{line}\n")
+            f.writelines("```\n")
+            f.writelines('</details>\n')
+
+        f.writelines('</details>\n')
