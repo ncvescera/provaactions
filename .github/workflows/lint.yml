@@ -31,9 +31,10 @@ jobs:
     ############################################
     permissions:
       pull-requests: write
-      contents: read
-      packages: read
+      # contents: read
+      # packages: read
       statuses: write
+      checks: write
 
     ##################
     # Load all steps #
