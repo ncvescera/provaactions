@@ -17,7 +17,6 @@ on:
 permissions:
   checks: write
   contents: write
-  pull-requests: write
 
 jobs:
   linting:
@@ -45,8 +44,9 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
         with:
+          persist-credentials: false
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{github.event.pull_request.head.ref}}
-          repository: ${{github.event.pull_request.head.repo.full_name}}
           # Full git history is needed to get a proper
           # list of changed files within `super-linter`
           fetch-depth: 2
@@ -77,19 +77,6 @@ jobs:
       - name: Generate Comments
         run: python .github/workflows/scripts/latex_commits_hints.py
 
-      - uses: mshick/add-pr-comment@v2
-        # if: failure()
-        with:
-          message-path: out_error.txt
-
-      - uses: LouisBrunner/checks-action@v1.6.1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: ChkTeX Linter
-          conclusion: failure
-          output: |
-            {"summary":"Il sommo linter ChkTex ha individuato alcuni problemi nel tuo codice LaTeX !!"}
-
       # - name: Get Output
       #   if: failure()
       #   run: |
@@ -97,6 +84,10 @@ jobs:
       #     # echo "\`\`\` \n" >> lint_error.txt
       #     #cat lint_error.txt
 
+      - uses: mshick/add-pr-comment@v2
+        # if: failure()
+        with:
+          message-path: out_error.txt
       # - name: Comment PR
       #   if: failure()
       #   uses: thollander/actions-comment-pull-request@v2
@@ -105,7 +96,6 @@ jobs:
       #     message: "${cat lint_error.txt}"
       # message: |
       #   Hello world ! :wave: ```$(cat lint_error.txt)```
-
 ###############
 # Set the Job #
 ###############
