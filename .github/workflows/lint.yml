@@ -14,10 +14,10 @@ on:
   # pull_request:
   #   branches: [master, main]
 
-permissions:
-  checks: write
-  contents: write
-  pull-requests: write
+# permissions:
+#   checks: write
+#   contents: write
+#   pull-requests: write
 
 jobs:
   linting:
@@ -31,9 +31,7 @@ jobs:
     ############################################
     permissions:
       pull-requests: write
-      contents: read
-      packages: read
-      statuses: write
+      contents: write
 
     ##################
     # Load all steps #
@@ -82,14 +80,6 @@ jobs:
         with:
           message-path: out_error.txt
 
-      - uses: LouisBrunner/checks-action@v1.6.1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: ChkTeX Linter
-          conclusion: failure
-          output: |
-            {"summary":"Il sommo linter ChkTex ha individuato alcuni problemi nel tuo codice LaTeX !!"}
-
       # - name: Get Output
       #   if: failure()
       #   run: |
@@ -105,7 +95,6 @@ jobs:
       #     message: "${cat lint_error.txt}"
       # message: |
       #   Hello world ! :wave: ```$(cat lint_error.txt)```
-
 ###############
 # Set the Job #
 ###############
