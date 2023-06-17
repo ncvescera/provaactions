@@ -96,8 +96,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: ChkTeX Linter
           conclusion: failure
-          output: |
-            {"summary":"Il sommo linter ChkTex ha individuato alcuni problemi nel tuo codice LaTeX !!"}
+          # output: |
+          #   {"summary":"Il sommo linter ChkTex ha individuato alcuni problemi nel tuo codice LaTeX !!"}
 
       # - name: Get Output
       #   if: failure()
@@ -114,7 +114,6 @@ jobs:
       #     message: "${cat lint_error.txt}"
       # message: |
       #   Hello world ! :wave: ```$(cat lint_error.txt)```
-
 ###############
 # Set the Job #
 ###############
