@@ -1,6 +1,6 @@
 import GaugeChart from "react-gauge-chart";
 
-// Styles for the AccelDial component
+//Styles for the AccelDial component
 const styles = {
   dial: {
     display: "inline-block",
