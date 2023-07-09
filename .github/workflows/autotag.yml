@@ -22,7 +22,7 @@ jobs:
         id: tag
         with:
           github-token: ${{ secrets.GITHUB_TOKEN}}
-          with-v: "true"
+          with-v: 'true'
           branch: main
           bump: major
           release-branch: main
@@ -36,7 +36,7 @@ jobs:
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "v${{needs.tag.outputs.newtag}}"
+          automatic_release_tag: "${{needs.tag.outputs.newtag}}"
           prerelease: false
       
 
