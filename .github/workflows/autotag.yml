@@ -50,11 +50,11 @@ jobs:
       #     release-branch: main
       #     dry-run: 'false'
 
-      - name: Changelog
-        uses: scottbrenner/generate-changelog-action@master
+      - name: "✏️ Generate release changelog"
+        uses: heinrichreimer/github-changelog-generator-action@v2.3
         id: Changelog
-        env:
-          REPO: ${{ github.repository }}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }} 
 
       - uses: rymndhng/release-on-push-action@master
         with:
