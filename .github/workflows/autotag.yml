@@ -54,7 +54,7 @@ jobs:
       - name: Generate changelog
         id: changelog
         uses: jaywcjlove/changelog-generator@main
-        if: env.previous_tag
+        # if: env.previous_tag
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           # filter-author: (jaywcjlove|小弟调调™|dependabot|renovate\\[bot\\]|dependabot\\[bot\\]|Renovate Bot)
