@@ -27,6 +27,18 @@ jobs:
           bump: major
           release-branch: main
           dry-run: 'false'
+
+  build:
+    needs: tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Release
+        uses: docker://antonyurchenko/git-release:latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #       
 #   release:
 #     runs-on: ubuntu-latest
