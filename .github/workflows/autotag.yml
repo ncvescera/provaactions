@@ -91,9 +91,9 @@ jobs:
           name: ${{ steps.create_tag.outputs.new-tag }}
           tag: ${{ steps.create_tag.outputs.new-tag }}
           body: |
-            ${{ steps.changelog.outputs.compareurl }}
-
             ${{ steps.changelog.outputs.changelog }}
+
+            ${{ steps.changelog.outputs.compareurl }}
             
       # - uses: rymndhng/release-on-push-action@master
       #   with:
