@@ -1,32 +1,32 @@
-# name: Create Tag
-#
-# on:
-#   push:
-#     branches:
-#       - main
-#
-# permissions:
-#   id-token: write
-#   contents: write
-#   packages: write
-#   pull-requests: read
-#   
-# jobs:
-#   tag:
-#     runs-on: ubuntu-latest
-#     outputs:
-#       newtag: ${{ steps.tag.outputs.new-tag }}
-#     steps:
-#       - uses: actions/checkout@v3
-#       - uses: phish108/autotag-action@v1.1.64
-#         id: tag
-#         with:
-#           github-token: ${{ secrets.GITHUB_TOKEN}}
-#           with-v: 'true'
-#           branch: main
-#           bump: major
-#           release-branch: main
-#           dry-run: 'true'
+name: Create Tag
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: write
+  packages: write
+  pull-requests: read
+  
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    outputs:
+      newtag: ${{ steps.tag.outputs.new-tag }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: phish108/autotag-action@v1.1.64
+        id: tag
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN}}
+          with-v: 'true'
+          branch: main
+          bump: major
+          release-branch: main
+          dry-run: 'false'
 #       
 #   release:
 #     runs-on: ubuntu-latest
