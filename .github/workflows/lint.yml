@@ -16,14 +16,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          persist-credentials: false
-          fetch-depth: 0
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          #persist-credentials: false
+          fetch-depth: 2
+          #repository: ${{ github.event.pull_request.head.repo.full_name }}
           #ref: ${{ github.event.pull_request.head.sha }}
           #repository: ${{ github.event.pull_request.head.repo.full_name }}
           #fetch-depth: 100  # OR "2" -> To retrieve the preceding commit.
           #persist-credentials: false
-          
+      - name: Get changes
+        run: git diff --name-only -r HEAD^1 HEAD   
       - name: Process files changed in the current commit
         run: |
           changedFiles=$(git diff --name-only HEAD^)
