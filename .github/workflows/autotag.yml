@@ -1,3 +1,23 @@
+# name: Release on push
+#
+# on: 
+#   push:
+#     branches:
+#       - main
+#
+# jobs:
+#   release-on-push:
+#     runs-on: ubuntu-latest
+#     env:
+#       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: rymndhng/release-on-push-action@master
+#         with:
+#           tag_prefix: v
+#           bump_version_scheme: minor
+#           use_github_release_notes: true
+#
 name: Create Tag
 
 on:
@@ -14,29 +34,94 @@ permissions:
 jobs:
   tag:
     runs-on: ubuntu-latest
-    outputs:
-      newtag: ${{ steps.tag.outputs.new-tag }}
+    # outputs:
+    #   newtag: ${{ steps.tag.outputs.new-tag }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v3
+      # - uses: phish108/autotag-action@v1.1.64
+      #   id: tag
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN}}
+      #     with-v: 'true'
+      #     branch: main
+      #     bump: major
+      #     release-branch: main
+      #     dry-run: 'false'
+
+      - run: echo "previous_tag=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+      - name: Generate changelog
+        id: changelog
+        uses: jaywcjlove/changelog-generator@main
+        # if: env.previous_tag
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # filter-author: (jaywcjlove|小弟调调™|dependabot|renovate\\[bot\\]|dependabot\\[bot\\]|Renovate Bot)
+          # filter: '[R|r]elease[d]\s+[v|V]\d(\.\d+){0,2}'
+          template: |
+                ## Bugs
+                {{fix}}
+                ## Feature
+                {{feat}}
+                ## Improve
+                {{refactor,perf,clean}}
+                ## Misc 
+                {{chore,style,ci||🔶 Nothing change}}
+                ## Unknown
+                {{__unknown__}}
+
+      - name: Get the changelog
+        run: echo "${{ steps.changelog.outputs.changelog }}"
+
       - uses: phish108/autotag-action@v1.1.64
-        id: tag
+        id: create_tag
         with:
           github-token: ${{ secrets.GITHUB_TOKEN}}
-          with-v: "true"
+          with-v: 'true'
           branch: main
           bump: major
           release-branch: main
-          dry-run: 'true'
-      
-  release:
-    runs-on: ubuntu-latest
-    needs: tag
-    steps:
-      - uses: actions/checkout@v3
-      - uses: "marvinpinto/action-automatic-releases@latest"
+          dry-run: 'false'
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "v${{needs.tag.outputs.newtag}}"
-          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: ${{ steps.create_tag.outputs.new-tag }}
+          tag: ${{ steps.create_tag.outputs.new-tag }}
+          body: |
+            ${{ steps.changelog.outputs.changelog }}
+
+            ${{ steps.changelog.outputs.compareurl }}
+            
+      # - uses: rymndhng/release-on-push-action@master
+      #   with:
+      #     tag_prefix: v
+      #     bump_version_scheme: minor
+      #     release_body: "${{ steps.Changelog.outputs.changelog }}"
+          # use_github_release_notes: true
+  # build:
+  #   needs: tag
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #
+  #     - name: Release
+  #       uses: docker://antonyurchenko/git-release:latest
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+  # release:
+  #   runs-on: ubuntu-latest
+  #   needs: tag
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: "marvinpinto/action-automatic-releases@latest"
+  #       with:
+  #         repo_token: "${{ secrets.GITHUB_TOKEN }}"
+  #         automatic_release_tag: "v${{needs.tag.outputs.newtag}}"
+  #         prerelease: false
       
 
