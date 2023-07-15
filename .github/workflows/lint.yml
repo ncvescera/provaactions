@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
-          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
+          fetch-depth: 100  # OR "2" -> To retrieve the preceding commit.
           persist-credentials: false
 
       # Example 1
