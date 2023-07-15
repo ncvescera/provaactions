@@ -1,14 +1,11 @@
 name: Auto Tag and Release
 
 on:
-  pull_request:
+  push:
     branches: [main, master]
-    types:
-      - closed
 
 jobs:
   tag:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     outputs:
       newtag: ${{ steps.tag.outputs.new-tag }}
