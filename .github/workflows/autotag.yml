@@ -6,12 +6,6 @@ on:
     types:
       - closed
 
-permissions:
-  id-token: write
-  contents: write
-  packages: write
-  pull-requests: read
-
 jobs:
   tag:
     if: github.event.pull_request.merged == true
@@ -19,7 +13,6 @@ jobs:
     outputs:
       newtag: ${{ steps.tag.outputs.new-tag }}
     steps:
-      - uses: actions/checkout@v3
       - uses: phish108/autotag-action@v1.1.64
         id: tag
         with:
@@ -34,7 +27,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: tag
     steps:
-      - uses: actions/checkout@v3
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
