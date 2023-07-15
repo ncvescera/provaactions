@@ -25,9 +25,9 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN}}
           with-v: "true"
-          branch: master
+          branch: main
           bump: major
-          release-branch: master
+          release-branch: main
           dry-run: "true"
 
   release:
