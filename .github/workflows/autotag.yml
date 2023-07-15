@@ -7,28 +7,54 @@ on:
 jobs:
   tag:
     runs-on: ubuntu-latest
-    outputs:
-      newtag: ${{ steps.tag.outputs.new-tag }}
     steps:
-      - uses: phish108/autotag-action@v1.1.64
-        id: tag
+      - name: Conventional Changelog Action
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@v3
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN}}
-          with-v: "true"
-          branch: main
-          bump: major
-          release-branch: main
-          dry-run: "true"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          output-file: "false"
 
-  release:
-    runs-on: ubuntu-latest
-    needs: tag
-    steps:
-      - uses: "marvinpinto/action-automatic-releases@latest"
+      - name: Create Release
+        uses: actions/create-release@v1
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "v${{needs.tag.outputs.newtag}}"
-          prerelease: false
+          tag_name: ${{ steps.changelog.outputs.tag }}
+          release_name: ${{ steps.changelog.outputs.tag }}
+          body: ${{ steps.changelog.outputs.clean_changelog }}
+# name: Auto Tag and Release
+#
+# on:
+#   push:
+#     branches: [main, master]
+#
+# jobs:
+#   tag:
+#     runs-on: ubuntu-latest
+#     outputs:
+#       newtag: ${{ steps.tag.outputs.new-tag }}
+#     steps:
+#       - uses: phish108/autotag-action@v1.1.64
+#         id: tag
+#         with:
+#           github-token: ${{ secrets.GITHUB_TOKEN}}
+#           with-v: "true"
+#           branch: main
+#           bump: major
+#           release-branch: main
+#           dry-run: "true"
+#
+#   release:
+#     runs-on: ubuntu-latest
+#     needs: tag
+#     steps:
+#       - uses: "marvinpinto/action-automatic-releases@latest"
+#         with:
+#           repo_token: "${{ secrets.GITHUB_TOKEN }}"
+#           automatic_release_tag: "v${{needs.tag.outputs.newtag}}"
+#           prerelease: false
 # name: Release on push
 #
 # on: 
