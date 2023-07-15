@@ -7,13 +7,32 @@ on:
 jobs:
   tag:
     runs-on: ubuntu-latest
+    outputs:
+      newtag: ${{ steps.tag.outputs.new-tag }}
     steps:
+      - uses: phish108/autotag-action@v1.1.64
+        id: tag
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN}}
+          with-v: "true"
+          branch: main
+          bump: major
+          release-branch: main
+          dry-run: "true"
+
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
       - name: Conventional Changelog Action
         id: changelog
         uses: TriPSs/conventional-changelog-action@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           output-file: "false"
+          skip-commit: "true"
+          skip-version-file: "true"
+          skip-tag: "true"
 
       - name: Create Release
         uses: actions/create-release@v1
@@ -21,8 +40,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.changelog.outputs.tag }}
-          release_name: ${{ steps.changelog.outputs.tag }}
+          tag_name: "v${{needs.tag.outputs.newtag}}"
+          release_name: "v${{needs.tag.outputs.newtag}}"
           body: ${{ steps.changelog.outputs.clean_changelog }}
 # name: Auto Tag and Release
 #
