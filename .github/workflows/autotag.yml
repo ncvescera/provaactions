@@ -2,8 +2,7 @@ name: Auto Tag and Release
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: [main, master]
     types:
       - closed
 
