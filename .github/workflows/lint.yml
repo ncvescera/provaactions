@@ -23,8 +23,8 @@ jobs:
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v37
-          with:
-            files: "**.tex"
+        with:
+          files: "**.tex"
       - run: echo "${{ steps.changed-files.outputs.all_changed_files }}"
 #           files: "**.tex"
 #############################
