@@ -87,7 +87,7 @@ jobs:
             #--unreleased
         env:
           OUTPUT: CHANGES.md
-
+      - run: cat ${{ steps.git-cliff.outputs.changelog }}
       - name: Create Release
         uses: actions/create-release@v1
         #if: ${{ steps.changelog.outputs.skipped == 'false' }}
