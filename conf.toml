@@ -48,7 +48,7 @@ split_commits = false
 commit_parsers = [
     { message = "^feat", group = "Features 🚀"},
     { message = "^fix", group = "Fixes"},
-    { message = "^doc", group = "Documentation"},
+    { message = "^doc", group = "Documentation 🖊"},
     { message = "^perf", group = "Performance"},
     { message = "^refactor", group = "Refactor"},
     { message = "^style", group = "Styling"},
