@@ -51,7 +51,7 @@ on:
     branches: [main, master]
 
 jobs:
-  tag:
+  gettag:
     runs-on: ubuntu-latest
     outputs:
       newtag: ${{ steps.tag.outputs.new-tag }}
@@ -64,21 +64,54 @@ jobs:
           branch: main
           bump: major
           release-branch: main
-          dry-run: "true"
+          dry-run: "false"
 
-  release:
+  pushtag:
     runs-on: ubuntu-latest
     needs: tag
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
-      - run: git pull
+      - run: git 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "v${{needs.tag.outputs.newtag}}"
           prerelease: false
+# name: Auto Tag and Release
+#
+# on:
+#   push:
+#     branches: [main, master]
+#
+# jobs:
+#   tag:
+#     runs-on: ubuntu-latest
+#     outputs:
+#       newtag: ${{ steps.tag.outputs.new-tag }}
+#     steps:
+#       - uses: phish108/autotag-action@v1.1.64
+#         id: tag
+#         with:
+#           github-token: ${{ secrets.GITHUB_TOKEN}}
+#           with-v: "true"
+#           branch: main
+#           bump: major
+#           release-branch: main
+#           dry-run: "true"
+#
+#   release:
+#     runs-on: ubuntu-latest
+#     needs: tag
+#     steps:
+#       - uses: actions/checkout@v3
+#         with:
+#           fetch-depth: 2
+#       - run: git pull
+#       - uses: "marvinpinto/action-automatic-releases@latest"
+#         with:
+#           repo_token: "${{ secrets.GITHUB_TOKEN }}"
+#           automatic_release_tag: "v${{needs.tag.outputs.newtag}}"
+#           prerelease: false
 # name: Release on push
 #
 # on: 
