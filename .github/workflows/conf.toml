@@ -46,7 +46,7 @@ commit_parsers = [
     { message = "^chore\\(release\\): prepare for", skip = true},
     { message = "^chore", group = "Miscellaneous Tasks"},
     { body = ".*security", group = "Security"},
-    { message = ".*", body = ".*", group = "Commits"},
+    { message = ".*", group = "Commits <img src='https://raw.githubusercontent.com/gilbarbara/logos/main/logos/git-icon.svg' width='20px' height='20px'>"},
 ]
 # protect breaking changes from being skipped due to matching a skipping commit_parser
 protect_breaking_commits = false
