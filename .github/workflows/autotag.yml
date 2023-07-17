@@ -82,7 +82,9 @@ jobs:
         id: git-cliff
         with:
           config: conf.toml
-          args: -vv --latest --strip header
+          args: -vv --unreleased --strip header
+            #args: -vv --latest --strip header
+            #--unreleased
         env:
           OUTPUT: CHANGES.md
 
