@@ -94,7 +94,7 @@ jobs:
         with:
           tag_name: "v${{needs.tag.outputs.newtag}}"
           release_name: "v${{needs.tag.outputs.newtag}}"
-          body: ${{ steps.git-cliff.outputs.changelog }}
+          body: ${{ steps.git-cliff.outputs.content }}
   
   #${{ steps.git-cliff.outputs.changelog }}
 # name: Auto Tag and Release
