@@ -81,7 +81,7 @@ jobs:
         uses: orhun/git-cliff-action@v2
         id: git-cliff
         with:
-          config: conf.toml
+          config: .github/workflows/conf.toml
           args: -vv --latest --unreleased --strip header
             #args: -vv --latest --strip header
             #--unreleased
