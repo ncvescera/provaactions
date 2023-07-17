@@ -56,27 +56,50 @@ jobs:
     outputs:
       newtag: ${{ steps.tag.outputs.new-tag }}
     steps:
-      - uses: phish108/autotag-action@v1.1.64
-        id: tag
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN}}
-          with-v: "true"
-          branch: main
-          bump: major
-          release-branch: main
-          dry-run: "false"
-
-  release:
-    runs-on: ubuntu-latest
-    needs: tag
-    steps:
       - uses: actions/checkout@v3
-      #- run: git 
-      - uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "v${{needs.tag.outputs.newtag}}"
-          prerelease: false
+          fetch-depth: 0
+      - name: Semver release
+        uses: cocogitto/cocogitto-action@v3
+        id: release
+        with:
+          release: true
+          git-user: 'Cog Bot'
+          git-user-email: 'mycoolproject@org.org'
+
+# name: Auto Tag and Release
+#
+# on:
+#   push:
+#     branches: [main, master]
+#
+# jobs:
+#   tag:
+#     runs-on: ubuntu-latest
+#     outputs:
+#       newtag: ${{ steps.tag.outputs.new-tag }}
+#     steps:
+#       - uses: phish108/autotag-action@v1.1.64
+#         id: tag
+#         with:
+#           github-token: ${{ secrets.GITHUB_TOKEN}}
+#           with-v: "true"
+#           branch: main
+#           bump: major
+#           release-branch: main
+#           dry-run: "false"
+#
+#   release:
+#     runs-on: ubuntu-latest
+#     needs: tag
+#     steps:
+#       - uses: actions/checkout@v3
+#       #- run: git 
+#       - uses: "marvinpinto/action-automatic-releases@latest"
+#         with:
+#           repo_token: "${{ secrets.GITHUB_TOKEN }}"
+#           automatic_release_tag: "v${{needs.tag.outputs.newtag}}"
+#           prerelease: false
 # name: Auto Tag and Release
 #
 # on:
