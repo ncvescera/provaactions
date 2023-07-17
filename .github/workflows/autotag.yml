@@ -56,6 +56,21 @@ jobs:
     outputs:
       newtag: ${{ steps.tag.outputs.new-tag }}
     steps:
+      - uses: phish108/autotag-action@v1.1.64
+        id: tag
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN}}
+          with-v: "true"
+          branch: main
+          bump: major
+          release-branch: main
+          dry-run: "true"
+
+  releasse:
+    runs-on: ubuntu-latest
+    outputs:
+      newtag: ${{ steps.tag.outputs.new-tag }}
+    steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -70,6 +85,17 @@ jobs:
         env:
           OUTPUT: CHANGES.md
 
+      - name: Create Release
+        uses: actions/create-release@v1
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: "v${{needs.tag.outputs.newtag}}"
+          release_name: "v${{needs.tag.outputs.newtag}}"
+          body: ${{ steps.git-cliff.outputs.changelog }}
+  
+  #${{ steps.git-cliff.outputs.changelog }}
 # name: Auto Tag and Release
 #
 # on:
