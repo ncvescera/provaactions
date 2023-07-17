@@ -67,6 +67,7 @@ jobs:
           dry-run: "true"
 
   releasse:
+    needs: tag
     runs-on: ubuntu-latest
     outputs:
       newtag: ${{ steps.tag.outputs.new-tag }}
@@ -87,7 +88,7 @@ jobs:
 
       - name: Create Release
         uses: actions/create-release@v1
-        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        #if: ${{ steps.changelog.outputs.skipped == 'false' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
