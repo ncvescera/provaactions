@@ -23,7 +23,7 @@ body = """
 {% for group, commits in commits | group_by(attribute="group") %}
     ### {{ group | upper_first }}
     {% for commit in commits %}
-        - {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}]({{ commit.id }})) @{{commit.author.name}}\
+        - {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}]({{ commit.id }})) @ {{commit.committer.name}}\
           {% for footer in commit.footers -%}
             , {{ footer.token }}{{ footer.separator }}{{ footer.value }}\
           {% endfor %}\
@@ -47,7 +47,7 @@ split_commits = false
 # regex for parsing and grouping commits
 commit_parsers = [
     { message = "^feat", group = "Features"},
-    { message = "^fix", group = "Bug Fixes"},
+    { message = "^fix", group = "Fixes"},
     { message = "^doc", group = "Documentation"},
     { message = "^perf", group = "Performance"},
     { message = "^refactor", group = "Refactor"},
