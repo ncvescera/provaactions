@@ -56,18 +56,19 @@ jobs:
     outputs:
       newtag: ${{ steps.tag.outputs.new-tag }}
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Semver release
-        uses: cocogitto/cocogitto-action@v3
-        id: release
+
+      - name: Generate a changelog
+        uses: orhun/git-cliff-action@v2
+        id: git-cliff
         with:
-          release: true
-          check: false
-          check-latest-tag-only: true
-          git-user: 'Cog Bot'
-          git-user-email: 'mycoolproject@org.org'
+          #config: cliff.toml
+          args: -vv --latest --strip header
+        env:
+          OUTPUT: CHANGES.md
 
 # name: Auto Tag and Release
 #
