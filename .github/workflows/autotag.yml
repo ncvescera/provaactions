@@ -82,7 +82,7 @@ jobs:
         id: git-cliff
         with:
           config: .github/workflows/conf.toml
-          args: -vv --latest --unreleased --strip header
+          args: -vv --latest --unreleased --strip header --tag v${{needs.tag.outputs.newtag}}
             #args: -vv --latest --strip header
             #--unreleased
         env:
