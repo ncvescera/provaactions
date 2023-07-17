@@ -65,6 +65,7 @@ jobs:
         with:
           release: true
           check: false
+          check-latest-tag-only: true
           git-user: 'Cog Bot'
           git-user-email: 'mycoolproject@org.org'
 
