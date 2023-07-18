@@ -10,9 +10,11 @@ on:
 
 
 jobs:
-  changed_files:
+  changed-files:
     runs-on: ubuntu-latest  # windows-latest || macos-latest
     name: Test changed-files
+    outputs:
+      all_changed_files: ${{ steps.changed-files.outputs.all_changed_files }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -26,20 +28,38 @@ jobs:
           files: "**.tex"
       - run: echo "${{ steps.changed-files.outputs.all_changed_files }}"
 
+  chktex:
+    needs: changed_files
+    runs-on: ubuntu-latest  # windows-latest || macos-latest
+    name: Chktex Checker
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
       - name: Install Chktex
         run: sudo apt-get install chktex -y
 
       - name: Run Chktex
         id: chktex
         if: steps.changed-files.outputs.any_changed == 'true'
-        run: chktex ${{ steps.changed-files.outputs.all_changed_files }}
+        run: chktex ${{ needs.changed-files.outputs.all_changed_files }}
+  
+  typo:
+    needs: changed_files
+    runs-on: ubuntu-latest  # windows-latest || macos-latest
+    name: Typo Checker
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
 
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu' # See 'Supported distributions' for available options
           java-version: '17'
       - run: wget https://github.com/sylvainhalle/textidote/releases/latest/download/textidote.jar
-      - run: java -jar textidote.jar ${{ steps.changed-files.outputs.all_changed_files }}
+      - run: java -jar textidote.jar ${{ needs.changed-files.outputs.all_changed_files }}
 
 #############################
 # Start the job on all push #
