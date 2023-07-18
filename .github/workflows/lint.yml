@@ -29,7 +29,7 @@ jobs:
       - run: echo "${{ steps.changed-files.outputs.all_changed_files }}"
 
   chktex:
-    needs: changed_files
+    needs: changed-files
     runs-on: ubuntu-latest  # windows-latest || macos-latest
     name: Chktex Checker
     steps:
@@ -46,7 +46,7 @@ jobs:
         run: chktex ${{ needs.changed-files.outputs.all_changed_files }}
   
   typo:
-    needs: changed_files
+    needs: changed-files
     runs-on: ubuntu-latest  # windows-latest || macos-latest
     name: Typo Checker
     steps:
