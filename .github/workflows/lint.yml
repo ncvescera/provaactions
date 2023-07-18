@@ -33,6 +33,14 @@ jobs:
         id: chktex
         if: steps.changed-files.outputs.any_changed == 'true'
         run: chktex ${{ steps.changed-files.outputs.all_changed_files }}
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu' # See 'Supported distributions' for available options
+          java-version: '17'
+      - run: wget https://github.com/sylvainhalle/textidote/releases/latest/download/textidote.jar
+      - run: java -jar textidote.jar ${{ steps.changed-files.outputs.all_changed_files }}
+
 #############################
 # Start the job on all push #
 #############################
