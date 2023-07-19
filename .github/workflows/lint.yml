@@ -62,7 +62,7 @@ jobs:
           distribution: 'zulu' # See 'Supported distributions' for available options
           java-version: '17'
       - run: wget https://github.com/sylvainhalle/textidote/releases/latest/download/textidote.jar
-      - run: java -jar textidote.jar --check it ${{ needs.changed-files.outputs.all_changed_files }}
+      - run: java -jar textidote.jar ${{ needs.changed-files.outputs.all_changed_files }}
   
   typo:
     needs: changed-files
