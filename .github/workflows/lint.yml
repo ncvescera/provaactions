@@ -15,6 +15,7 @@ jobs:
     name: Test changed-files
     outputs:
       all_changed_files: ${{ steps.changed-files.outputs.all_changed_files }}
+      any_changed_files: ${{ steps.changed-files.outputs.any_changed_files }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -28,10 +29,11 @@ jobs:
           files: "**.tex"
       - run: echo "${{ steps.changed-files.outputs.all_changed_files }}"
 
-  chktex:
+  linter:
     needs: changed-files
     runs-on: ubuntu-latest  # windows-latest || macos-latest
-    name: Chktex Checker
+    name: Linter Checker
+    if: needs.changed-files.outputs.any_changed == 'true'
     steps:
       - uses: actions/checkout@v3
         with:
@@ -42,13 +44,14 @@ jobs:
 
       - name: Run Chktex
         id: chktex
-        if: steps.changed-files.outputs.any_changed == 'true'
+        #if: steps.changed-files.outputs.any_changed == 'true'
         run: chktex ${{ needs.changed-files.outputs.all_changed_files }}
   
-  typo:
+  styler:
     needs: changed-files
     runs-on: ubuntu-latest  # windows-latest || macos-latest
-    name: Typo Checker
+    name: Styler Checker
+    if: needs.changed-files.outputs.any_changed == 'true'
     steps:
       - uses: actions/checkout@v3
         with:
@@ -60,8 +63,25 @@ jobs:
           java-version: '17'
       - run: wget https://github.com/sylvainhalle/textidote/releases/latest/download/textidote.jar
       - run: java -jar textidote.jar --check it ${{ needs.changed-files.outputs.all_changed_files }}
+  
+  typo:
+    needs: changed-files
+    runs-on: ubuntu-latest  # windows-latest || macos-latest
+    name: Styler Checker
+    if: needs.changed-files.outputs.any_changed == 'true'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
 
-#############################
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu' # See 'Supported distributions' for available options
+          java-version: '17'
+      - run: wget https://github.com/valentjn/ltex-ls/releases/latest/download/ltex-ls-16.0.0.tar.gz && tar xvf ltex-ls-16.0.0.tar.gz
+      - run: ./ltex-ls-16.0.0/bin/ltex-cli --client-configuration=.github/workflows/ltex.json ${{ needs.changed-files.outputs.all_changed_files }}
+
+    #############################
 # Start the job on all push #
 #############################
 # on:
