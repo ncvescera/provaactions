@@ -38,8 +38,10 @@ jobs:
         #  fetch-depth: 0
       - uses: xu-cheng/latex-action@v2
         with:
-          root_file: "./${{needs.changed-files.outputs.all_changed_files}}/main.tex"
-
+          root_file: main.tex
+          working_directory: "./${{needs.changed-files.outputs.all_changed_files}}"
+          #glob_root_file: true
+          latexmk_use_lualatex: true
       
       - name: Run ltex-cli
         run: ./ltex-ls-16.0.0/bin/ltex-cli --client-configuration=.github/workflows/ltex.json ${{ needs.changed-files.outputs.all_changed_files }}
