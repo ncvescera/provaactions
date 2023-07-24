@@ -38,9 +38,9 @@ jobs:
         #  fetch-depth: 0
       - uses: xu-cheng/latex-action@v2
         with:
-          root_file: main.tex
-          working_directory: "./${{needs.changed-files.outputs.all_changed_files}}"
-          #glob_root_file: true
+          root_file: "aa/*/main.tex"
+          #working_directory: "./${{needs.changed-files.outputs.all_changed_files}}"
+          glob_root_file: true
           latexmk_use_lualatex: true
       - uses: actions/upload-artifact@v3
         with:
