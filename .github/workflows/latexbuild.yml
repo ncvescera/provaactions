@@ -42,4 +42,8 @@ jobs:
           working_directory: "./${{needs.changed-files.outputs.all_changed_files}}"
           #glob_root_file: true
           latexmk_use_lualatex: true
-      
+      - uses: actions/upload-artifact@v3
+        with:
+          name: buidl-pdf
+          path: "./${{needs.changed-files.outputs.all_changed_files}}/main.pdf"
+
