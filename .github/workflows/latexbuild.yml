@@ -1,0 +1,45 @@
+name: LaTex Build
+
+on:
+  pull_request:
+    branches: [master, main]
+    types:
+      - synchronize
+
+
+jobs:
+  changed-files:
+    runs-on: ubuntu-latest  # windows-latest || macos-latest
+    name: Looking for changed files 👁
+    outputs:
+      all_changed_files: ${{ steps.changed-files.outputs.all_changed_files }}
+      any_changed: ${{ steps.changed-files.outputs.any_changed }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v37
+        with:
+          files: "**.tex"
+          dir_names: "true"
+      - run: echo "${{ steps.changed-files.outputs.all_changed_files }}"
+
+  builder:
+    needs: changed-files
+    runs-on: ubuntu-latest  # windows-latest || macos-latest
+    name: LuaLatex Build 🖊
+    if: needs.changed-files.outputs.any_changed == 'true'
+    steps:
+      - uses: actions/checkout@v3
+        #with:
+        #  fetch-depth: 0
+      - uses: xu-cheng/latex-action@v2
+        with:
+          root_file: "${{needs.changed-files.outputs.all_changed_files}}main.tex"
+
+      
+      - name: Run ltex-cli
+        run: ./ltex-ls-16.0.0/bin/ltex-cli --client-configuration=.github/workflows/ltex.json ${{ needs.changed-files.outputs.all_changed_files }}
