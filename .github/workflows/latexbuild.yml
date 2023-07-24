@@ -38,7 +38,7 @@ jobs:
         #  fetch-depth: 0
       - uses: xu-cheng/latex-action@v2
         with:
-          root_file: "${{needs.changed-files.outputs.all_changed_files}}main.tex"
+          root_file: "./${{needs.changed-files.outputs.all_changed_files}}/main.tex"
 
       
       - name: Run ltex-cli
