@@ -43,5 +43,3 @@ jobs:
           #glob_root_file: true
           latexmk_use_lualatex: true
       
-      - name: Run ltex-cli
-        run: ./ltex-ls-16.0.0/bin/ltex-cli --client-configuration=.github/workflows/ltex.json ${{ needs.changed-files.outputs.all_changed_files }}
