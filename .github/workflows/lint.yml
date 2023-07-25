@@ -43,7 +43,7 @@ jobs:
 
       - name: Run Chktex
         id: chktex
-        run: chktex ${{ needs.changed-files.outputs.all_changed_files }}
+        run: chktex -v 2 ${{ needs.changed-files.outputs.all_changed_files }}
   
   styler:
     needs: changed-files
