@@ -44,7 +44,7 @@ jobs:
 
       - name: Run Chktex
         id: chktex
-        run: echo "${{ needs.changed-files.outputs.all_changed_files }}" | sed -e 's/ /\\\\ /g' | sed -e 's/,/ /g'| xargs chktex
+        run: echo "\"${{ steps.changed-files.outputs.all_changed_files }}\"" | sed -e 's/,/" "/g'| xargs chktex
   
   styler:
     needs: changed-files
