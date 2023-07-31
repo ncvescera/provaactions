@@ -44,7 +44,7 @@ jobs:
 
       - name: Run Chktex
         id: chktex
-        run: echo "\"${{ steps.changed-files.outputs.all_changed_files }}\"" | sed -e 's/,/" "/g'| xargs chktex
+        run: echo "\"${{ needs.changed-files.outputs.all_changed_files }}\"" | sed -e 's/,/" "/g'| xargs chktex
   
   styler:
     needs: changed-files
@@ -66,7 +66,7 @@ jobs:
         run: wget https://github.com/sylvainhalle/textidote/releases/latest/download/textidote.jar
 
       - name: Run textidote
-        run: java -jar textidote.jar "${{ needs.changed-files.outputs.all_changed_files }}"
+        run: echo "\"${{ needs.changed-files.outputs.all_changed_files }}\"" | sed -e 's/,/" "/g'| xargs java -jar textidote.jar
   
   typo:
     needs: changed-files
