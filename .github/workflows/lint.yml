@@ -27,7 +27,7 @@ jobs:
         with:
           files: "**.tex"
           separator: ","
-      - run: echo "${{ steps.changed-files.outputs.all_changed_files }}"
+      - run: echo "\"${{ steps.changed-files.outputs.all_changed_files }}\"" | sed -e 's/,/" "/g'| 
 
   linter:
     needs: changed-files
