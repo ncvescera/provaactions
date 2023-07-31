@@ -44,7 +44,7 @@ jobs:
 
       - name: Run Chktex
         id: chktex
-        run: echo "\"${{ needs.changed-files.outputs.all_changed_files }}\"" | sed -e 's/,/" "/g'| xargs chktex
+        run: echo "\"${{ needs.changed-files.outputs.all_changed_files }}\"" | sed -e 's/,/" "/g'| xargs chktex -v
   
   styler:
     needs: changed-files
@@ -88,7 +88,7 @@ jobs:
         run: wget https://github.com/valentjn/ltex-ls/releases/latest/download/ltex-ls-16.0.0.tar.gz && tar xvf ltex-ls-16.0.0.tar.gz
 
       - name: Run ltex-cli
-        run: ./ltex-ls-16.0.0/bin/ltex-cli --client-configuration=.github/workflows/ltex.json "${{ needs.changed-files.outputs.all_changed_files }}"
+        run: echo "\"${{ needs.changed-files.outputs.all_changed_files }}\"" | sed -e 's/,/" "/g'| xargs ./ltex-ls-16.0.0/bin/ltex-cli --client-configuration=.github/workflows/ltex.json
 
     #############################
 # Start the job on all push #
