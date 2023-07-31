@@ -26,6 +26,7 @@ jobs:
         uses: tj-actions/changed-files@v37
         with:
           files: "**.tex"
+          separator: ","
       - run: echo "${{ steps.changed-files.outputs.all_changed_files }}"
 
   linter:
@@ -43,7 +44,7 @@ jobs:
 
       - name: Run Chktex
         id: chktex
-        run: chktex "${{ needs.changed-files.outputs.all_changed_files }}" -v
+        run: echo "${{ needs.changed-files.outputs.all_changed_files }}" | sed -e 's/ /\\\\ /g' | sed -e 's/,/ /g'| chktex -v
   
   styler:
     needs: changed-files
