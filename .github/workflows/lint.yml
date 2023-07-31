@@ -43,7 +43,7 @@ jobs:
 
       - name: Run Chktex
         id: chktex
-        run: chktex ${{ needs.changed-files.outputs.all_changed_files }} -v
+        run: chktex "${{ needs.changed-files.outputs.all_changed_files }}" -v
   
   styler:
     needs: changed-files
@@ -65,7 +65,7 @@ jobs:
         run: wget https://github.com/sylvainhalle/textidote/releases/latest/download/textidote.jar
 
       - name: Run textidote
-        run: java -jar textidote.jar ${{ needs.changed-files.outputs.all_changed_files }}
+        run: java -jar textidote.jar "${{ needs.changed-files.outputs.all_changed_files }}"
   
   typo:
     needs: changed-files
@@ -87,7 +87,7 @@ jobs:
         run: wget https://github.com/valentjn/ltex-ls/releases/latest/download/ltex-ls-16.0.0.tar.gz && tar xvf ltex-ls-16.0.0.tar.gz
 
       - name: Run ltex-cli
-        run: ./ltex-ls-16.0.0/bin/ltex-cli --client-configuration=.github/workflows/ltex.json ${{ needs.changed-files.outputs.all_changed_files }}
+        run: ./ltex-ls-16.0.0/bin/ltex-cli --client-configuration=.github/workflows/ltex.json "${{ needs.changed-files.outputs.all_changed_files }}"
 
     #############################
 # Start the job on all push #
