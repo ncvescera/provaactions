@@ -86,7 +86,7 @@ jobs:
           cp "git-cliff-${version}/git-cliff" /usr/local/bin/
 
       - name: Generate a changelog
-        run: git-cliff -vv --latest --unreleased --strip header --config.github/workflows/conf.toml --tag v${{needs.tag.outputs.newtag}}
+        run: git-cliff -vv --latest --unreleased --strip header --config .github/workflows/conf.toml --tag v${{needs.tag.outputs.newtag}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
