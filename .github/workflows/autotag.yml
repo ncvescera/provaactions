@@ -86,7 +86,7 @@ jobs:
           cp "git-cliff-${version}/git-cliff" /usr/local/bin/
 
       - name: Generate a changelog
-        run: git-cliff -vv --latest --unreleased --strip header --config .github/workflows/conf.toml --tag v${{needs.tag.outputs.newtag}}
+        run: git-cliff -vv --latest --unreleased --strip header --config .github/workflows/conf.toml --tag v${{needs.tag.outputs.newtag}} -o log.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -111,8 +111,9 @@ jobs:
         with:
           tag_name: "v${{needs.tag.outputs.newtag}}"
           release_name: "v${{needs.tag.outputs.newtag}}"
-          body: ${{ steps.git-cliff.outputs.content }}
-  
+          # body: ${{ steps.git-cliff.outputs.content }}
+          body_path: log.md  
+
   #${{ steps.git-cliff.outputs.changelog }}
 # name: Auto Tag and Release
 #
