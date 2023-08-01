@@ -75,6 +75,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install JQ
+        run: sudo apt-install -y jq
+
       - name: Generate a changelog
         uses: orhun/git-cliff-action@v2
         id: git-cliff
@@ -85,6 +88,7 @@ jobs:
             #--unreleased
         env:
           OUTPUT: CHANGES.md
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: cat ${{ steps.git-cliff.outputs.changelog }}
       - name: Create Release
         uses: actions/create-release@v1
