@@ -76,7 +76,7 @@ jobs:
           fetch-depth: 0
 
       - name: Install JQ
-        run: sudo apt-install -y jq
+        run: sudo apt-get install -y jq
 
       - name: Generate a changelog
         uses: orhun/git-cliff-action@v2
