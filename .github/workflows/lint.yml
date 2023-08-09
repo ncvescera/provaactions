@@ -1,12 +1,15 @@
 name: LaTex Cheks 🕵
 
 on:
-  workflow_dispatch:
-    inputs:
-      root:
-        description: 'Root directory'
-        required: false
-        type: string
+  issue_comment:
+    types: [created]
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       root:
+#         description: 'Root directory'
+#         required: false
+#         type: string
 # on:
 #   pull_request:
 #     branches: [master, main]
@@ -35,7 +38,29 @@ jobs:
 #           files: "**.tex"
 #       - run: echo "${{ steps.changed-files.outputs.all_changed_files }}"
 #
+  preview:
+      runs-on: ubuntu-latest
+      outputs:
+        comment_text: ${{ steps.check.outputs.comment_body }}
+        issue: ${{ steps.check.outputs.issue_number }}
+        sha: ${{ steps.check.outputs.sha }}
+        root: ${{ env.root }}
+      steps:
+        - uses: lwhiteley/match-comment-phrase-action@v1.5.0
+          id: check
+          env:
+            GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          with:
+            phrase: '/check'
+            reactions: eyes
+            mode: starts_line
+        - run: |
+            echo 'Found it!'
+            echo "root=$(echo ${{ steps.check.outputs.comment_body }} | cut -d ' ' -f 2-)" >> $GITHUB_ENV
+          if: steps.check.outputs.match_found == 'true'
+
   linter:
+    needs: preview
     runs-on: ubuntu-latest  # windows-latest || macos-latest
     name: Linter Checker 🖊
     steps:
@@ -49,10 +74,11 @@ jobs:
       - name: Run Chktex
         id: chktex
         run: |
-          cd "${{ inputs.root }}"
+          cd "${{ needs.preview.outputs.root }}"
           find ./ |grep ".tex" | xargs chktex
 #   
   styler:
+    needs: preview
     runs-on: ubuntu-latest  # windows-latest || macos-latest
     name: Styler Checker ✨
     steps:
@@ -71,8 +97,8 @@ jobs:
 
       - name: Run textidote
         run: |
-          mv textidote.jar "${{ inputs.root }}"
-          cd "${{ inputs.root }}"
+          mv textidote.jar "${{ needs.preview.outputs.root }}"
+          cd "${{ needs.preview.outputs.root }}"
           java -jar textidote.jar main.tex
 #   
 #   typo:
