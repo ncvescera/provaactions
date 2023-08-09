@@ -77,7 +77,6 @@ jobs:
         run: |
           cd "${{ needs.preview.outputs.root }}"
           find ./ |grep ".tex" | xargs chktex -o chktexout.txt
-          #echo "outs=\"$(< chktexout.txt)\"" >> $GITHUB_OUTPUT
 
       - uses: LouisBrunner/checks-action@v1.6.1
         if: always()
@@ -114,13 +113,7 @@ jobs:
         run: |
           mv textidote.jar "${{ needs.preview.outputs.root }}"
           cd "${{ needs.preview.outputs.root }}"
-          java -jar textidote.jar  --output singleline main.tex 2>&1 | tee textidoteout.txt
-          #echo "$(< textidoteout.txt)"
-          #echo "out='$(< textidoteout.txt)'" >> $GITHUB_OUTPUT
-          # echo "out=$(cat out.txt)" >> $GITHUB_ENV
-
-      # - run: cat textidoteout.txt
-      #   if: always()
+          java -jar textidote.jar --no-color --output singleline main.tex 2>&1 | tee textidoteout.txt
 
       - uses: LouisBrunner/checks-action@v1.6.1
         if: always()
@@ -129,6 +122,7 @@ jobs:
           name: Styler Checker ✨
           conclusion: ${{ job.status }}
           sha: ${{ needs.preview.outputs.sha }}
+          #status: completed
           output: |
             {"summary":"Prova", "text_description": "aa"}
           output_text_description_file: "${{ needs.preview.outputs.root }}textidoteout.txt"
