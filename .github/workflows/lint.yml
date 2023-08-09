@@ -49,7 +49,7 @@ jobs:
       - name: Run Chktex
         id: chktex
         run: |
-          cd ${{ inputs.root }}
+          cd "${{ inputs.root }}"
           chktex main.tex
 #   
 #   styler:
