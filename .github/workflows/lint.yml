@@ -76,7 +76,8 @@ jobs:
         id: chktex
         run: |
           cd "${{ needs.preview.outputs.root }}"
-          find ./ |grep ".tex" | xargs chktex
+          find ./ |grep ".tex" | xargs chktex -o out.txt
+          echo "out=$(cat out.txt)" >> $GITHUB_ENV
 
       - uses: LouisBrunner/checks-action@v1.6.1
         if: always()
@@ -86,7 +87,7 @@ jobs:
           conclusion: ${{ job.status }}
           sha: ${{ needs.preview.outputs.sha }}
           output: |
-            {"summary":"Prova Linter"}
+            {"summary":"${{ env.out }}"}
 
   styler:
     needs: preview
@@ -111,7 +112,8 @@ jobs:
         run: |
           mv textidote.jar "${{ needs.preview.outputs.root }}"
           cd "${{ needs.preview.outputs.root }}"
-          java -jar textidote.jar main.tex
+          java -jar textidote.jar main.tex > out.txt
+          echo "out=$(cat out.txt)" >> $GITHUB_ENV
 
       - uses: LouisBrunner/checks-action@v1.6.1
         if: always()
@@ -121,7 +123,7 @@ jobs:
           conclusion: ${{ job.status }}
           sha: ${{ needs.preview.outputs.sha }}
           output: |
-            {"summary":"Prova Styler Checker"}
+            {"summary":"${{ env.out }}"}
 #   
 #   typo:
 #     needs: changed-files
