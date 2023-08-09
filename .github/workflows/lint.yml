@@ -77,7 +77,7 @@ jobs:
         run: |
           cd "${{ needs.preview.outputs.root }}"
           find ./ |grep ".tex" | xargs chktex -o out.txt
-          echo "out=$(< out.txt)" >> $GITHUB_ENV
+          echo "out=$(< out.txt)" >> $GITHUB_OUTPUT
 
       - uses: LouisBrunner/checks-action@v1.6.1
         if: always()
@@ -87,7 +87,7 @@ jobs:
           conclusion: ${{ job.status }}
           sha: ${{ needs.preview.outputs.sha }}
           output: |
-            {"summary":"${{ env.out }}"}
+            {"summary":"${{ steps.chktex.outputs.out }}"}
 
   styler:
     needs: preview
@@ -109,12 +109,13 @@ jobs:
         run: wget https://github.com/sylvainhalle/textidote/releases/latest/download/textidote.jar
 
       - name: Run textidote
+        id: textidote
         run: |
           mv textidote.jar "${{ needs.preview.outputs.root }}"
           cd "${{ needs.preview.outputs.root }}"
           java -jar textidote.jar --output html main.tex > out.txt
           echo "$(< out.txt)"
-          echo "out='$(< out.txt)'" >> $GITHUB_ENV
+          echo "out='$(< out.txt)'" >> $GITHUB_OUTPUT
           # echo "out=$(cat out.txt)" >> $GITHUB_ENV
 
       - run: echo "$(cat out.txt)"
@@ -128,7 +129,7 @@ jobs:
           conclusion: ${{ job.status }}
           sha: ${{ needs.preview.outputs.sha }}
           output: |
-            {"summary":"${{ env.out }}"}
+            {"summary":"${{ steps.textidote.outputs.out }}"}
 #   
 #   typo:
 #     needs: changed-files
