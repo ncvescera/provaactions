@@ -76,8 +76,8 @@ jobs:
         id: chktex
         run: |
           cd "${{ needs.preview.outputs.root }}"
-          find ./ |grep ".tex" | xargs chktex 2>&1 | tee chktexout.txt
-          echo "outs='$(< chktexout.txt)'" >> $GITHUB_OUTPUT
+          find ./ |grep ".tex" | xargs chktex -o chktexout.txt
+          #echo "outs=\"$(< chktexout.txt)\"" >> $GITHUB_OUTPUT
 
       - uses: LouisBrunner/checks-action@v1.6.1
         if: always()
@@ -87,7 +87,8 @@ jobs:
           conclusion: ${{ job.status }}
           sha: ${{ needs.preview.outputs.sha }}
           output: |
-            {"summary":"${{ steps.chktex.outputs.outs }}"}
+            {"summary":"Prova", "text_description": "aa"}
+          output_text_description_file: chktexout.txt
 
   styler:
     needs: preview
