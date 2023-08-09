@@ -76,7 +76,7 @@ jobs:
         id: chktex
         run: |
           cd "${{ needs.preview.outputs.root }}"
-          find ./ |grep ".tex" | xargs chktex -o out.txt
+          find ./ |grep ".tex" | xargs chktex 2> out.txt
           echo "out=$(< out.txt)" >> $GITHUB_OUTPUT
 
       - uses: LouisBrunner/checks-action@v1.6.1
@@ -113,9 +113,10 @@ jobs:
         run: |
           mv textidote.jar "${{ needs.preview.outputs.root }}"
           cd "${{ needs.preview.outputs.root }}"
-          java -jar textidote.jar --output html main.tex > out.txt 2>&1
+          java -jar textidote.jar --output html main.tex 2> out.txt
           echo "$(< out.txt)"
           echo "out='$(< out.txt)'" >> $GITHUB_OUTPUT
+          echo "$out"
           # echo "out=$(cat out.txt)" >> $GITHUB_ENV
 
       - run: echo "$(cat out.txt)"
