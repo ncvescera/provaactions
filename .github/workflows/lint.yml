@@ -113,12 +113,12 @@ jobs:
         run: |
           mv textidote.jar "${{ needs.preview.outputs.root }}"
           cd "${{ needs.preview.outputs.root }}"
-          java -jar textidote.jar --output html main.tex 2>&1 | tee textidoteout.txt
+          java -jar textidote.jar main.tex 2>&1 | tee textidoteout.txt
           echo "$(< textidoteout.txt)"
           echo "out='$(< textidoteout.txt)'" >> $GITHUB_OUTPUT
           # echo "out=$(cat out.txt)" >> $GITHUB_ENV
 
-      - run: echo "$(cat textidoteout.txt)"
+      - run: echo "'$(cat textidoteout.txt)'"
         if: always()
 
       - uses: LouisBrunner/checks-action@v1.6.1
@@ -129,7 +129,7 @@ jobs:
           conclusion: ${{ job.status }}
           sha: ${{ needs.preview.outputs.sha }}
           output: |
-            {"summary":"${{ steps.textidote.outputs.out }}"}
+            {"summary":"Prova", "text_description": "${{ steps.textidote.outputs.out }}"}
 #   
 #   typo:
 #     needs: changed-files
