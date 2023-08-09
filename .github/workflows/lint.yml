@@ -113,9 +113,11 @@ jobs:
           mv textidote.jar "${{ needs.preview.outputs.root }}"
           cd "${{ needs.preview.outputs.root }}"
           java -jar textidote.jar main.tex > out.txt
-          cat out.txt
-          echo "out=$(< out.txt)" >> $GITHUB_ENV
+          echo "$(< out.txt)"
+          echo "out='$(< out.txt)'" >> $GITHUB_ENV
           # echo "out=$(cat out.txt)" >> $GITHUB_ENV
+
+      - run: echo "$(< out.txt)"
 
       - uses: LouisBrunner/checks-action@v1.6.1
         if: always()
