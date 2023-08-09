@@ -118,6 +118,7 @@ jobs:
           # echo "out=$(cat out.txt)" >> $GITHUB_ENV
 
       - run: echo "$(< out.txt)"
+        if: always()
 
       - uses: LouisBrunner/checks-action@v1.6.1
         if: always()
