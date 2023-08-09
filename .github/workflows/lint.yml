@@ -2,6 +2,7 @@ name: LaTex Cheks 🕵
 
 on:
   workflow_dispatch:
+    inputs:
       root:
         description: 'Root directory'
         required: false
