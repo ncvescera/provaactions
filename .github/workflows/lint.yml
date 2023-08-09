@@ -77,7 +77,7 @@ jobs:
         run: |
           cd "${{ needs.preview.outputs.root }}"
           find ./ |grep ".tex" | xargs chktex -o out.txt
-          echo "out=$(cat out.txt)" >> $GITHUB_ENV
+          echo "out=$(< out.txt)" >> $GITHUB_ENV
 
       - uses: LouisBrunner/checks-action@v1.6.1
         if: always()
@@ -112,7 +112,7 @@ jobs:
         run: |
           mv textidote.jar "${{ needs.preview.outputs.root }}"
           cd "${{ needs.preview.outputs.root }}"
-          java -jar textidote.jar main.tex > out.txt
+          java -jar textidote.jar --output html main.tex > out.txt
           echo "$(< out.txt)"
           echo "out='$(< out.txt)'" >> $GITHUB_ENV
           # echo "out=$(cat out.txt)" >> $GITHUB_ENV
