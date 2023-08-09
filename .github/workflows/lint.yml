@@ -73,7 +73,7 @@ jobs:
         run: |
           mv textidote.jar "${{ inputs.root }}"
           cd "${{ inputs.root }}"
-          find ./ |grep ".tex" | xargs java -jar textidote.jar 
+          java -jar textidote.jar main.tex
 #   
 #   typo:
 #     needs: changed-files
