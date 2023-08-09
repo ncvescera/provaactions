@@ -113,7 +113,7 @@ jobs:
         run: |
           mv textidote.jar "${{ needs.preview.outputs.root }}"
           cd "${{ needs.preview.outputs.root }}"
-          java -jar textidote.jar --output html main.tex > out.txt
+          java -jar textidote.jar --output html main.tex > out.txt 2>&1
           echo "$(< out.txt)"
           echo "out='$(< out.txt)'" >> $GITHUB_OUTPUT
           # echo "out=$(cat out.txt)" >> $GITHUB_ENV
