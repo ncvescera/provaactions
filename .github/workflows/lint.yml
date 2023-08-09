@@ -88,7 +88,7 @@ jobs:
           sha: ${{ needs.preview.outputs.sha }}
           output: |
             {"summary":"Prova", "text_description": "aa"}
-          output_text_description_file: chktexout.txt
+          output_text_description_file: "${{ needs.preview.outputs.root }}chktexout.txt"
 
   styler:
     needs: preview
@@ -119,8 +119,8 @@ jobs:
           #echo "out='$(< textidoteout.txt)'" >> $GITHUB_OUTPUT
           # echo "out=$(cat out.txt)" >> $GITHUB_ENV
 
-      - run: cat textidoteout.txt
-        if: always()
+      # - run: cat textidoteout.txt
+      #   if: always()
 
       - uses: LouisBrunner/checks-action@v1.6.1
         if: always()
@@ -131,7 +131,7 @@ jobs:
           sha: ${{ needs.preview.outputs.sha }}
           output: |
             {"summary":"Prova", "text_description": "aa"}
-          output_text_description_file: textidoteout.txt
+          output_text_description_file: "${{ needs.preview.outputs.root }}textidoteout.txt"
 
 #   
 #   typo:
