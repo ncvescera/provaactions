@@ -50,7 +50,7 @@ jobs:
         id: chktex
         run: |
           cd "${{ inputs.root }}"
-          chktex main.tex
+          find ./ |grep ".tex" | xargs chktex
 #   
 #   styler:
 #     needs: changed-files
