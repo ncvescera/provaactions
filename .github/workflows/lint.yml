@@ -113,7 +113,7 @@ jobs:
         run: |
           mv textidote.jar "${{ needs.preview.outputs.root }}"
           cd "${{ needs.preview.outputs.root }}"
-          java -jar textidote.jar --no-color --output singleline main.tex 2>&1 | tee textidoteout.txt
+          java -jar textidote.jar --no-color main.tex 2>&1 | tee textidoteout.txt
 
       - uses: LouisBrunner/checks-action@v1.6.1
         if: always()
