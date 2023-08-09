@@ -117,7 +117,7 @@ jobs:
           echo "out='$(< out.txt)'" >> $GITHUB_ENV
           # echo "out=$(cat out.txt)" >> $GITHUB_ENV
 
-      - run: echo "$(< out.txt)"
+      - run: echo "$(cat out.txt)"
         if: always()
 
       - uses: LouisBrunner/checks-action@v1.6.1
