@@ -87,6 +87,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           id: linter
+          name: "Linter Checker 🖊"
           status: in_progress
         
       - name: Run Chktex
@@ -103,6 +104,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           id: linter
+          name: "Linter Checker 🖊"
           conclusion: ${{ steps.chktex.outcome }}
       #- uses: LouisBrunner/checks-action@v1.6.1
       #  if: always()
@@ -139,6 +141,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           id: styler
+          name: Styler Checker ✨
           status: in_progress
           
       - name: Run textidote
@@ -156,6 +159,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           id: styler
+          name: Styler Checker ✨
           conclusion: ${{ steps.textidote.outcome }}
 
 #   
