@@ -146,7 +146,7 @@ jobs:
       - uses: gh640/command-result-action@v1
         id: myaction
         with:
-          command: java -jar textidote.jar "${{ needs.preview.outputs.root }}"/main.tex 
+          command: java -jar textidote.jar --no-color "${{ needs.preview.outputs.root }}"/main.tex 
           
    #   - name: Run textidote
    #     id: textidote
