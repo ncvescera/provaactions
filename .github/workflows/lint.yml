@@ -146,7 +146,7 @@ jobs:
       - uses: gh640/command-result-action@v1
         id: myaction
         with:
-          command: mv textidote.jar "${{ needs.preview.outputs.root }}" && cd "${{ needs.preview.outputs.root }}" && java -jar textidote.jar main.tex 
+          command: java -jar textidote.jar "${{ needs.preview.outputs.root }}"/main.tex 
           
    #   - name: Run textidote
    #     id: textidote
