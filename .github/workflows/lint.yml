@@ -148,12 +148,12 @@ jobs:
         with:
           command: mv textidote.jar "${{ needs.preview.outputs.root }}" && cd "${{ needs.preview.outputs.root }}" && java -jar textidote.jar main.tex 
           
-      - name: Run textidote
-        id: textidote
-        run: |
-          mv textidote.jar "${{ needs.preview.outputs.root }}"
-          cd "${{ needs.preview.outputs.root }}"
-          java -jar textidote.jar main.tex
+   #   - name: Run textidote
+   #     id: textidote
+   #     run: |
+   #       mv textidote.jar "${{ needs.preview.outputs.root }}"
+   #       cd "${{ needs.preview.outputs.root }}"
+   #       java -jar textidote.jar main.tex
           
     #java -jar textidote.jar --no-color main.tex 2>&1 | tee textidoteout.txt
 
