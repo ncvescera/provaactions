@@ -143,6 +143,10 @@ jobs:
           id: styler
           name: Styler Checker ✨
           status: in_progress
+      - uses: gh640/command-result-action@v1
+        id: myaction
+        with:
+          command: mv textidote.jar "${{ needs.preview.outputs.root }}" && cd "${{ needs.preview.outputs.root }}" && java -jar textidote.jar main.tex 
           
       - name: Run textidote
         id: textidote
@@ -153,14 +157,17 @@ jobs:
           
     #java -jar textidote.jar --no-color main.tex 2>&1 | tee textidoteout.txt
 
-      - name: Report Conclusion
-        if: always()
-        uses: dflydev/check-runs-action@v1
+      - name: maintain-comment
+        uses: actions-cool/maintain-one-comment@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          id: styler
-          name: Styler Checker ✨
-          conclusion: ${{ steps.textidote.outcome }}
+          body: |
+            Qui ci sono degli errori:
+            <h2>Stdout</h2>
+            ${{ steps.myaction.outputs.stdout }}
+            <h2>Stderr</h2>
+            ${{ steps.myaction.outputs.stderr }}
+          emojis: '+1, laugh'
 
 #   
 #   typo:
