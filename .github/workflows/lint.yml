@@ -58,7 +58,17 @@ jobs:
             echo 'Found it!'
             echo "root=$(echo ${{ steps.check.outputs.comment_body }} | cut -d ' ' -f 2-)" >> $GITHUB_ENV
           if: steps.check.outputs.match_found == 'true'
-
+          
+        - name: Prepare Check Runs ✅
+          uses: dflydev/check-runs-action@v1
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+            checks: |
+              [
+                { "id": "linter", "name": "Linter Checker 🖊" },
+                { "id": "styler", "name": "Styler Checker ✨" }
+              ]
+            status: "queued"
   linter:
     needs: preview
     runs-on: ubuntu-latest  # windows-latest || macos-latest
@@ -71,23 +81,39 @@ jobs:
 
       - name: Install Chktex
         run: sudo apt-get install chktex -y
-
+        
+      - name: Check Starting
+        uses: dflydev/check-runs-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          id: linter
+          status: in_progress
+        
       - name: Run Chktex
         id: chktex
         run: |
           cd "${{ needs.preview.outputs.root }}"
-          find ./ |grep ".tex" | xargs chktex -o chktexout.txt
-
-      - uses: LouisBrunner/checks-action@v1.6.1
+          find ./ |grep ".tex" | xargs chktex
+          
+      #find ./ |grep ".tex" | xargs chktex -o chktexout.txt
+          
+      - name: Report Conclusion
         if: always()
+        uses: dflydev/check-runs-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          name: Linter Checker 🖊
-          conclusion: ${{ job.status }}
-          sha: ${{ needs.preview.outputs.sha }}
-          output: |
-            {"summary":"Prova", "text_description": "aa"}
-          output_text_description_file: "${{ needs.preview.outputs.root }}chktexout.txt"
+          id: linter
+          conclusion: ${{ steps.chktex.outcome }}
+      #- uses: LouisBrunner/checks-action@v1.6.1
+      #  if: always()
+      #  with:
+      #    token: ${{ secrets.GITHUB_TOKEN }}
+      #    name: Linter Checker 🖊
+      #    conclusion: ${{ job.status }}
+      #    sha: ${{ needs.preview.outputs.sha }}
+      #    output: |
+      #      {"summary":"Prova", "text_description": "aa"}
+      #    output_text_description_file: "${{ needs.preview.outputs.root }}chktexout.txt"
 
   styler:
     needs: preview
@@ -107,25 +133,30 @@ jobs:
 
       - name: Install textidote
         run: wget https://github.com/sylvainhalle/textidote/releases/latest/download/textidote.jar
-
+      
+      - name: Check Starting
+        uses: dflydev/check-runs-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          id: styler
+          status: in_progress
+          
       - name: Run textidote
         id: textidote
         run: |
           mv textidote.jar "${{ needs.preview.outputs.root }}"
           cd "${{ needs.preview.outputs.root }}"
-          java -jar textidote.jar --no-color main.tex 2>&1 | tee textidoteout.txt
+          java -jar textidote.jar main.tex
+          
+    #java -jar textidote.jar --no-color main.tex 2>&1 | tee textidoteout.txt
 
-      - uses: LouisBrunner/checks-action@v1.6.1
+      - name: Report Conclusion
         if: always()
+        uses: dflydev/check-runs-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          name: Styler Checker ✨
-          conclusion: ${{ job.status }}
-          sha: ${{ needs.preview.outputs.sha }}
-          #status: completed
-          output: |
-            {"summary":"Prova", "text_description": "aa"}
-          output_text_description_file: "${{ needs.preview.outputs.root }}textidoteout.txt"
+          id: styler
+          conclusion: ${{ steps.textidote.outcome }}
 
 #   
 #   typo:
